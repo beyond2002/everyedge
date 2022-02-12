@@ -1,0 +1,15 @@
+[submodule "srv6-sdn-proto"]
+	path = srv6-sdn-proto
+	url = https://github.com/everywan-io/srv6-sdn-proto
+[submodule "srv6-sdn-data-plane"]
+	path = srv6-sdn-data-plane
+	url = https://github.com/everywan-io/srv6-sdn-data-plane
+[submodule "pynat"]
+	path = pynat
+	url = https://github.com/cscarpitta/pynat
+[submodule "srv6pm-delay-measurement"]
+	path = srv6pm-delay-measurement
+	url = https://github.com/everywan-io/srv6pm-delay-measurement
+[submodule "srv6-sdn-authentication"]
+	path = srv6-sdn-authentication
+	url = https://github.com/everywan-io/srv6-sdn-authentication
