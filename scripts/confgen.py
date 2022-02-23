@@ -273,7 +273,7 @@ print('Resolving defaults')
 if answers['nat_discovery_server_ip'] == '':
     answers['nat_discovery_server_ip'] = DEFAULT_NAT_DISCOVERY_SERVER_IP
 if answers['nat_discovery_server_port'] == '':
-    answers['nat_discovery_server_ip'] = DEFAULT_NAT_DISCOVERY_SERVER_PORT
+    answers['nat_discovery_server_port'] = DEFAULT_NAT_DISCOVERY_SERVER_PORT
 if answers['nat_discovery_client_ip'] == '':
     answers['nat_discovery_client_ip'] = DEFAULT_NAT_DISCOVERY_CLIENT_IP
 if answers['nat_discovery_client_port'] == '':
