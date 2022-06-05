@@ -282,9 +282,14 @@ questions = [
         'default': DEFAULT_SET_WIREGUARD,
     },
     {
-        'type': 'input',
+        'type': 'editor',
         'name': 'wireguard-config',
-        'message': f'Paste your Wireguard configuration:'
+        'message': f'Paste your Wireguard configuration:',
+        'default' : '# Please paste your Wireguard configuration below\n\n',
+        'eargs': {
+            'editor':'nano',
+            'ext':'.conf'
+        }
     },
     {
         'type': 'input',
