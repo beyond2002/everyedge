@@ -15,11 +15,14 @@ NUM_VHOSTS_FILENAME = '/etc/everyedge/vhosts.conf'
 VHOSTS_IDX_FILENAME = '/etc/everyedge/vhosts-idx.conf'
 
 # Default settings
-DEFAULT_NAT_DISCOVERY_SERVER_IP = '2607:5300:201:3100::6a8f'
-DEFAULT_NAT_DISCOVERY_SERVER_PORT = '3478'
+# DEFAULT_NAT_DISCOVERY_SERVER_IP = '2607:5300:201:3100::6a8f'
+DEFAULT_NAT_DISCOVERY_SERVER_IP = 'stun.l.google.com'
+# DEFAULT_NAT_DISCOVERY_SERVER_PORT = '3478'
+DEFAULT_NAT_DISCOVERY_SERVER_PORT = '19302'
 DEFAULT_NAT_DISCOVERY_CLIENT_IP = '::'
 DEFAULT_NAT_DISCOVERY_CLIENT_PORT = '0'
-DEFAULT_PYMERANG_SERVER_IP = '2001:760:4016:1200:5054:ff:fe7f:f5a8'
+# DEFAULT_PYMERANG_SERVER_IP = '2001:760:4016:1200:5054:ff:fe7f:f5a8'
+DEFAULT_PYMERANG_SERVER_IP = '160.80.105.253'
 DEFAULT_PYMERANG_SERVER_PORT = '50061'
 DEFAULT_TOKEN_FILE = '/etc/everyedge/token'
 DEFAULT_PUBLIC_PREFIX_LENGTH = '128'
@@ -31,7 +34,7 @@ DEFAULT_SB_INTERFACE = 'gRPC'
 DEFAULT_GRPC_SERVER_IP = '::'
 DEFAULT_GRPC_SERVER_PORT = '12345'
 DEFAULT_KEEP_ALIVE_INTERVAL = '5'
-DEFAULT_DEFAULT_SECURE = False
+DEFAULT_SECURE = False
 DEFAULT_KEY = '/etc/everyedge/key'
 DEFAULT_QUAGGA_PASSWORD = 'zebra'
 DEFAULT_ZEBRA_PORT = '2601'
@@ -41,7 +44,7 @@ DEFAULT_FORCE_IP6TNL = False
 DEFAULT_FORCE_SRH = True
 DEFAULT_INCOMING_SR_TRANSPARENCY = 't0'
 DEFAULT_OUTGOING_SR_TRANSPARENCY = 't0'
-DEFAULT_ALLOW_REBOOT = True
+DEFAULT_ALLOW_REBOOT = False
 DEFAULT_TOKEN = ''
 DEFAULT_SET_WIREGUARD = False
 DEFAULT_NUM_VHOSTS = 0
@@ -146,89 +149,89 @@ questions = [
         'message': f'gRPC port of the EveryWAN controller [{DEFAULT_PYMERANG_SERVER_PORT}]:',
         'validate': PortNumberValidator,
     },
-    {
-        'type': 'input',
-        'name': 'token_file',
-        'message': f'Path to the EveryEdge token [{DEFAULT_TOKEN_FILE}]:',
-    },
+    # {
+    #     'type': 'input',
+    #     'name': 'token_file',
+    #     'message': f'Path to the EveryEdge token [{DEFAULT_TOKEN_FILE}]:',
+    # },
     {
         'type': 'input',
         'name': 'public_prefix_length',
         'message': f'Public prefix length [{DEFAULT_PUBLIC_PREFIX_LENGTH}]:',
         'validate': PrefixLengthValidator,
     },
-    {
-        'type': 'input',
-        'name': 'sid_prefix',
-        'message': f'SID Prefix [{DEFAULT_SID_PREFIX}]:',
-    },
+    # {
+    #     'type': 'input',
+    #     'name': 'sid_prefix',
+    #     'message': f'SID Prefix [{DEFAULT_SID_PREFIX}]:',
+    # },
     {
         'type': 'confirm',
         'name': 'debug',
         'message': 'Debug mode [yes]' if DEFAULT_DEBUG else 'Debug mode [no]',
         'default': DEFAULT_DEBUG,
     },
-    {
-        'type': 'confirm',
-        'name': 'verbose',
-        'message': 'Verbose mode [yes]' if DEFAULT_VERBOSE else 'Verbose mode [no]',
-        'default': DEFAULT_VERBOSE,
-    },
-    {
-        'type': 'input',
-        'name': 'device_config_file',
-        'message': f'Path to the JSON configuration file of the device [{DEFAULT_DEVICE_CONFIG_FILE}]:',
-    },
-    {
-        'type': 'input',
-        'name': 'sb_interface',
-        'message': f'Southbound Interface to use to interact with the controller [{DEFAULT_SB_INTERFACE}]:',
-    },
-    {
-        'type': 'input',
-        'name': 'grpc_server_ip',
-        'message': f'gRPC server IP address [{DEFAULT_GRPC_SERVER_IP}]:',
-    },
-    {
-        'type': 'input',
-        'name': 'grpc_server_port',
-        'message': f'gRPC server port [{DEFAULT_GRPC_SERVER_PORT}]:',
-        'validate': PortNumberValidator,
-    },
-    {
-        'type': 'input',
-        'name': 'keep_alive_interval',
-        'message': f'Interval between two consecutive keep alive messages [{DEFAULT_KEEP_ALIVE_INTERVAL}]:',
-        'validate': NumberValidator,
-    },
-    {
-        'type': 'confirm',
-        'name': 'secure',
-        'message': f'Enable gRPC secure mode? [{DEFAULT_DEFAULT_SECURE}]:',
-        'default': False,
-    },
-    {
-        'type': 'input',
-        'name': 'key',
-        'message': f'Path to the TLS key [{DEFAULT_KEY}]:',
-    },
-    {
-        'type': 'input',
-        'name': 'quagga_password',
-        'message': f'FRR password [{DEFAULT_QUAGGA_PASSWORD}]:',
-    },
-    {
-        'type': 'input',
-        'name': 'zebra_port',
-        'message': f'zebra port [{DEFAULT_ZEBRA_PORT}]:',
-        'validate': PortNumberValidator,
-    },
-    {
-        'type': 'input',
-        'name': 'ospf6d_port',
-        'message': f'ospf6d port [{DEFAULT_OSPF6D_PORT}]:',
-        'validate': PortNumberValidator,
-    },    
+    # {
+    #     'type': 'confirm',
+    #     'name': 'verbose',
+    #     'message': 'Verbose mode [yes]' if DEFAULT_VERBOSE else 'Verbose mode [no]',
+    #     'default': DEFAULT_VERBOSE,
+    # },
+    # {
+    #     'type': 'input',
+    #     'name': 'device_config_file',
+    #     'message': f'Path to the JSON configuration file of the device [{DEFAULT_DEVICE_CONFIG_FILE}]:',
+    # },
+    # {
+    #     'type': 'input',
+    #     'name': 'sb_interface',
+    #     'message': f'Southbound Interface to use to interact with the controller [{DEFAULT_SB_INTERFACE}]:',
+    # },
+    # {
+    #     'type': 'input',
+    #     'name': 'grpc_server_ip',
+    #     'message': f'gRPC server IP address [{DEFAULT_GRPC_SERVER_IP}]:',
+    # },
+    # {
+    #     'type': 'input',
+    #     'name': 'grpc_server_port',
+    #     'message': f'gRPC server port [{DEFAULT_GRPC_SERVER_PORT}]:',
+    #     'validate': PortNumberValidator,
+    # },
+    # {
+    #     'type': 'input',
+    #     'name': 'keep_alive_interval',
+    #     'message': f'Interval between two consecutive keep alive messages [{DEFAULT_KEEP_ALIVE_INTERVAL}]:',
+    #     'validate': NumberValidator,
+    # },
+    # {
+    #     'type': 'confirm',
+    #     'name': 'secure',
+    #     'message': f'Enable gRPC secure mode? [{DEFAULT_SECURE}]:',
+    #     'default': False,
+    # },
+    # {
+    #     'type': 'input',
+    #     'name': 'key',
+    #     'message': f'Path to the TLS key [{DEFAULT_KEY}]:',
+    # },
+    # {
+    #     'type': 'input',
+    #     'name': 'quagga_password',
+    #     'message': f'FRR password [{DEFAULT_QUAGGA_PASSWORD}]:',
+    # },
+    # {
+    #     'type': 'input',
+    #     'name': 'zebra_port',
+    #     'message': f'zebra port [{DEFAULT_ZEBRA_PORT}]:',
+    #     'validate': PortNumberValidator,
+    # },
+    # {
+    #     'type': 'input',
+    #     'name': 'ospf6d_port',
+    #     'message': f'ospf6d port [{DEFAULT_OSPF6D_PORT}]:',
+    #     'validate': PortNumberValidator,
+    # },    
     {
         'type': 'confirm',
         'name': 'enable_proxy_ndp',
@@ -312,29 +315,33 @@ if answers['pymerang_server_ip'] == '':
     answers['pymerang_server_ip'] = DEFAULT_PYMERANG_SERVER_IP
 if answers['pymerang_server_port'] == '':
     answers['pymerang_server_port'] = DEFAULT_PYMERANG_SERVER_PORT
-if answers['token_file'] == '':
+if answers.get('token_file', '') == '':
     answers['token_file'] = DEFAULT_TOKEN_FILE
 if answers['public_prefix_length'] == '':
     answers['public_prefix_length'] = DEFAULT_PUBLIC_PREFIX_LENGTH
-if answers['sid_prefix'] == '':
+if answers.get('sid_prefix', '') == '':
     answers['sid_prefix'] = DEFAULT_SID_PREFIX
-if answers['device_config_file'] == '':
+if answers.get('verbose', '') == '':
+    answers['verbose'] = DEFAULT_VERBOSE
+if answers.get('device_config_file', '') == '':
     answers['device_config_file'] = DEFAULT_DEVICE_CONFIG_FILE
-if answers['sb_interface'] == '':
+if answers.get('sb_interface', '') == '':
     answers['sb_interface'] = DEFAULT_SB_INTERFACE
-if answers['grpc_server_ip'] == '':
+if answers.get('grpc_server_ip', '') == '':
     answers['grpc_server_ip'] = DEFAULT_GRPC_SERVER_IP
-if answers['grpc_server_port'] == '':
+if answers.get('grpc_server_port', '') == '':
     answers['grpc_server_port'] = DEFAULT_GRPC_SERVER_PORT
-if answers['keep_alive_interval'] == '':
+if answers.get('keep_alive_interval', '') == '':
     answers['keep_alive_interval'] = DEFAULT_KEEP_ALIVE_INTERVAL
-if answers['key'] == '':
+if answers.get('secure', '') == '':
+    answers['secure'] = DEFAULT_SECURE
+if answers.get('key', '') == '':
     answers['key'] = DEFAULT_KEY
-if answers['quagga_password'] == '':
+if answers.get('quagga_password', '') == '':
     answers['quagga_password'] = DEFAULT_QUAGGA_PASSWORD
-if answers['zebra_port'] == '':
+if answers.get('zebra_port', '') == '':
     answers['zebra_port'] = DEFAULT_ZEBRA_PORT
-if answers['ospf6d_port'] == '':
+if answers.get('ospf6d_port', '') == '':
     answers['ospf6d_port'] = DEFAULT_OSPF6D_PORT
 if answers['incoming-sr-transparency'] == '':
     answers['incoming-sr-transparency'] = DEFAULT_INCOMING_SR_TRANSPARENCY
