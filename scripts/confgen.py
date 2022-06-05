@@ -11,6 +11,8 @@ from PyInquirer import Validator, ValidationError
 
 CONFIG_FILENAME = '/etc/everyedge/config.ini'
 WIREGUARD_CONFIG_FILENAME = '/etc/everyedge/wg0-ipv6.conf'
+NUM_VHOSTS_FILENAME = '/etc/everyedge/vhosts.conf'
+VHOSTS_IDX_FILENAME = '/etc/everyedge/vhosts-idx.conf'
 
 # Default settings
 DEFAULT_NAT_DISCOVERY_SERVER_IP = '2607:5300:201:3100::6a8f'
@@ -42,6 +44,8 @@ DEFAULT_OUTGOING_SR_TRANSPARENCY = 't0'
 DEFAULT_ALLOW_REBOOT = True
 DEFAULT_TOKEN = ''
 DEFAULT_SET_WIREGUARD = False
+DEFAULT_NUM_VHOSTS = 0
+DEFAULT_VHOSTS_IDX = 1
 
 style = style_from_dict({
     Token.QuestionMark: '#E91E63 bold',
@@ -278,7 +282,19 @@ questions = [
         'type': 'input',
         'name': 'wireguard-config',
         'message': f'Paste your Wireguard configuration:'
-    }
+    },
+    {
+        'type': 'input',
+        'name': 'num-vhosts',
+        'message': f'Number of hosts to simulate [{DEFAULT_NUM_VHOSTS}]:',
+        'validate': NumberValidator,
+    },
+    {
+        'type': 'input',
+        'name': 'vhosts-idx',
+        'message': f'Virtual hosts starting index [{DEFAULT_VHOSTS_IDX}]:',
+        'validate': NumberValidator,
+    },
 ]
 
 answers = prompt(questions, style=style)
@@ -324,6 +340,10 @@ if answers['incoming-sr-transparency'] == '':
     answers['incoming-sr-transparency'] = DEFAULT_INCOMING_SR_TRANSPARENCY
 if answers['outgoing-sr-transparency'] == '':
     answers['outgoing-sr-transparency'] = DEFAULT_OUTGOING_SR_TRANSPARENCY
+if answers['num-vhosts'] == '':
+    answers['num-vhosts'] = DEFAULT_NUM_VHOSTS
+if answers['vhosts-idx'] == '':
+    answers['vhosts-idx'] = DEFAULT_VHOSTS_IDX
 
 # Remove token from the configuration
 token = answers.pop('token')
@@ -331,6 +351,12 @@ token = answers.pop('token')
 # Remove Wireguard config from the configuration
 set_wireguard = answers.pop('set-wireguard')
 wireguard_config = answers.pop('wireguard-config')
+
+# Remove num of virtual hosts from the configuration
+num_vhosts = answers.pop('num-vhosts')
+
+# Remove vhosts index hosts from the configuration
+vhosts_idx = answers.pop('vhosts-idx')
 
 # Save the token to a separate file
 print('Saving the token to %s:' % answers['token_file'])
@@ -353,6 +379,16 @@ else:
     if os.path.exists(WIREGUARD_CONFIG_FILENAME):
         print('Use Wireguard: no. Removing Wireguard configuration file')
         os.remove(WIREGUARD_CONFIG_FILENAME)
+
+# Save the num of virtual hosts to a separate file
+print('Saving num of vhosts to %s:' % NUM_VHOSTS_FILENAME)
+with open(NUM_VHOSTS_FILENAME, 'w') as num_vhosts_file:
+    num_vhosts_file.write(str(num_vhosts))
+
+# Save the virtual hosts starting index to a separate file
+print('Saving vhosts starting index to %s:' % VHOSTS_IDX_FILENAME)
+with open(VHOSTS_IDX_FILENAME, 'w') as vhosts_idx_file:
+    vhosts_idx_file.write(str(vhosts_idx))
 
 print('Generating configuration:')
 pprint(answers)
