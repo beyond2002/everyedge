@@ -4,11 +4,13 @@ from __future__ import print_function, unicode_literals
 #import regex
 
 import configparser
+import os
 from pprint import pprint
 from PyInquirer import style_from_dict, Token, prompt
 from PyInquirer import Validator, ValidationError
 
 CONFIG_FILENAME = '/etc/everyedge/config.ini'
+WIREGUARD_CONFIG_FILENAME = '/etc/everyedge/wg0-ipv6.conf'
 
 # Default settings
 DEFAULT_NAT_DISCOVERY_SERVER_IP = '2607:5300:201:3100::6a8f'
@@ -39,6 +41,7 @@ DEFAULT_INCOMING_SR_TRANSPARENCY = 't0'
 DEFAULT_OUTGOING_SR_TRANSPARENCY = 't0'
 DEFAULT_ALLOW_REBOOT = True
 DEFAULT_TOKEN = ''
+DEFAULT_SET_WIREGUARD = False
 
 style = style_from_dict({
     Token.QuestionMark: '#E91E63 bold',
@@ -264,6 +267,17 @@ questions = [
         'type': 'input',
         'name': 'token',
         'message': f'Token:'
+    },
+    {
+        'type': 'confirm',
+        'name': 'set-wireguard',
+        'message': 'Set a Wireguard VPN? [yes]' if DEFAULT_SET_WIREGUARD else 'Set a Wireguard VPN? [no]',
+        'default': DEFAULT_SET_WIREGUARD,
+    },
+    {
+        'type': 'input',
+        'name': 'wireguard-config',
+        'message': f'Paste your Wireguard configuration:'
     }
 ]
 
@@ -314,12 +328,31 @@ if answers['outgoing-sr-transparency'] == '':
 # Remove token from the configuration
 token = answers.pop('token')
 
+# Remove Wireguard config from the configuration
+set_wireguard = answers.pop('set-wireguard')
+wireguard_config = answers.pop('wireguard-config')
+
 # Save the token to a separate file
 print('Saving the token to %s:' % answers['token_file'])
 TOKEN_FILENAME = answers['token_file']
 with open(TOKEN_FILENAME, 'w') as tokenfile:
   tokenfile.write(token)
 
+if set_wireguard is True:
+    # Save the Wireguard configuration to a separate file
+    print('Saving the wireguard config to %s:' % WIREGUARD_CONFIG_FILENAME)
+    with open(WIREGUARD_CONFIG_FILENAME, 'w') as wireguard_config_file:
+        wireguard_config_file.write(wireguard_config)
+
+    # Bring Wireguard up -> This is moved to the starter.sh script
+    # os.system(f'wg-quick up {WIREGUARD_CONFIG_FILENAME}')
+else:
+    # Bring Wireguard down -> This is moved to the starter.sh script
+    # os.system(f'wg-quick down {WIREGUARD_CONFIG_FILENAME}')
+
+    if os.path.exists(WIREGUARD_CONFIG_FILENAME):
+        print('Use Wireguard: no. Removing Wireguard configuration file')
+        os.remove(WIREGUARD_CONFIG_FILENAME)
 
 print('Generating configuration:')
 pprint(answers)
